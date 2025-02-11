@@ -12,7 +12,7 @@ body {
     overflow: hidden;
     
     /* ✅ Background Image */
-    background-image: url('https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); /* Change to your image path */
+    background-image: url('background.png'); /* Change to your image path */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
