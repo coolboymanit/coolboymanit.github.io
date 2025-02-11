@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="" alt="Valentine" class="valentine-gif" style="display: none;">
+        <h1 class="floating-text">Will you be my Valentine?</h1>
+        <div class="buttons">
+            <button class="yes-btn" onclick="showLove()">Yes</button>
+            <button class="no-btn" onclick="moveButton()">No</button>
+        </div>
+    </div>
+
+    <!-- ✅ Floating Background (Images will be added dynamically) -->
+    <div class="floating-background"></div>
+
+    <script>
+        // ✅ Dynamically Add Floating Images
+        document.addEventListener("DOMContentLoaded", function () {
+            const bgContainer = document.querySelector(".floating-background");
+            const placedPositions = [];
+            const numImage5 = Math.floor(Math.random() * (4 - 2 + 1)) + 2; // 2-4 copies of image5
+            const totalImages = 28; // ✅ 20 original + 4 extra repetitions of specified images + 4 fillers
+
+            let image5Count = 0;
+            const imageList = [];
+
+            // ✅ Ensure at least one of each image1.png to image20.png appears
+            for (let i = 1; i <= 20; i++) {
+                imageList.push(i);
+            }
+
+            // ✅ Add extra repetitions for image2, image3, image14, image17 to fill space
+            imageList.push(2, 3, 14, 17, 2, 3, 14, 17);
+
+            // ✅ Add extra copies of image5 to meet the 2-4 copies requirement
+            for (let i = 0; i < numImage5 - 1; i++) {
+                imageList.push(5);
+            }
+
+            // ✅ Shuffle the image list for randomness
+            imageList.sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < totalImages; i++) {
+                const img = document.createElement("img");
+                const imageIndex = imageList[i];
+
+                img.src = `images/image${imageIndex}.png`;
+                img.classList.add("floating-img");
+
+                // ✅ Ensure image5 rotates & shifts color
+                if (imageIndex === 5) {
+                    img.classList.add("rotating-img");
+                    img.style.setProperty("--hue-rotate", `${Math.random() * 360}deg`);
+                }
+
+                // ✅ Increase size for specific images
+                let baseSize = Math.random() * 80 + 100; // Default size between 100px - 180px
+                if ([4, 6, 7, 9, 11, 12, 15, 16, 20].includes(imageIndex)) {
+                    baseSize *= 1.3; // Increase size for these images
+                }
+                img.style.width = `${baseSize}px`;
+
+                let randomX, randomY, overlapping;
+                let maxAttempts = 100, attempts = 0;
+
+                do {
+                    overlapping = false;
+                    randomX = Math.random() * (window.innerWidth - baseSize - 10); // Ensure within viewport width
+                    randomY = Math.random() * (window.innerHeight - baseSize - 10); // Ensure within viewport height
+
+                    for (let pos of placedPositions) {
+                        let distance = Math.sqrt(
+                            Math.pow(randomX - pos.x, 2) + Math.pow(randomY - pos.y, 2)
+                        );
+                        if (distance < baseSize + 80) { 
+                            overlapping = true;
+                            break;
+                        }
+                    }
+
+                    attempts++;
+                } while (overlapping && attempts < maxAttempts);
+
+                placedPositions.push({ x: randomX, y: randomY });
+
+                img.style.position = "absolute";
+                img.style.top = `${randomY}px`;
+                img.style.left = `${randomX}px`;
+
+                let randomTilt = Math.random() * 30 - 15;
+                img.style.setProperty('--random-tilt', `${randomTilt}deg`);
+
+                bgContainer.appendChild(img);
+            }
+        });
+
+        // ✅ Floating Text Animation
+        document.addEventListener("DOMContentLoaded", function () {
+            const text = document.querySelector(".floating-text");
+            text.style.animation = "floatText 4s ease-in-out infinite alternate";
+        });
+
+        // ✅ "No" Button Logic (Unchanged)
+        const noButton = document.querySelector('.no-btn');
+        const container = document.querySelector('.container');
+        const messages = [
+            "Please?", "Are you sure?", "Pretty please?",
+            "Don't break my heart!", "I'll be sad!", "Give it a chance!",
+            "Think again!", "Last chance!", "You're breaking my heart :(", "Please say yes!"
+        ];
+        let messageIndex = 0;
+
+        function moveButton() {
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = noButton.getBoundingClientRect();
+            const padding = 20;
+            
+            const areas = [
+                {
+                    minX: padding,
+                    maxX: window.innerWidth - buttonRect.width - padding,
+                    minY: padding,
+                    maxY: containerRect.top - buttonRect.height - padding
+                },
+                {
+                    minX: padding,
+                    maxX: window.innerWidth - buttonRect.width - padding,
+                    minY: containerRect.bottom + padding,
+                    maxY: window.innerHeight - buttonRect.height - padding
+                },
+                {
+                    minX: padding,
+                    maxX: containerRect.left - buttonRect.width - padding,
+                    minY: padding,
+                    maxY: window.innerHeight - buttonRect.height - padding
+                },
+                {
+                    minX: containerRect.right + padding,
+                    maxX: window.innerWidth - buttonRect.width - padding,
+                    minY: padding,
+                    maxY: window.innerHeight - buttonRect.height - padding
+                }
+            ];
+            
+            const validAreas = areas.filter(area => 
+                area.maxX > area.minX && area.maxY > area.minY
+            );
+            
+            if (validAreas.length === 0) {
+                const x = Math.random() < 0.5 ? padding : window.innerWidth - buttonRect.width - padding;
+                const y = Math.random() < 0.5 ? padding : window.innerHeight - buttonRect.height - padding;
+                setButtonPosition(x, y);
+                return;
+            }
+            
+            const area = validAreas[Math.floor(Math.random() * validAreas.length)];
+            const x = Math.random() * (area.maxX - area.minX) + area.minX;
+            const y = Math.random() * (area.maxY - area.minY) + area.minY;
+            
+            setButtonPosition(x, y);
+            
+            noButton.textContent = messages[messageIndex];
+            messageIndex = (messageIndex + 1) % messages.length;
+        }
+        
+        function setButtonPosition(x, y) {
+            noButton.style.position = 'fixed';
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+            noButton.style.zIndex = '1000';
+        }
+
+        function showLove() {
+            const gif = document.querySelector('.valentine-gif');
+            gif.src = 'https://media.tenor.com/IQVZUhI0s7wAAAAi/love-heart.gif';
+            gif.style.display = 'block';
+            document.querySelector('h1').textContent = "Like NO was an option 😝😝😝";
+            document.querySelector('.buttons').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

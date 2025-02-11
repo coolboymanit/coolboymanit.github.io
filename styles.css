@@ -1,0 +1,169 @@
+/* ✅ Import Aesthetic Bubbly Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Pacifico&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e79fa9;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ✅ Center the GIF inside the container */
+.valentine-gif {
+    width: 250px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ✅ Apply Aesthetic Bubbly Font to Main Heading */
+h1 {
+    font-family: 'Pacifico', cursive;
+    color: #e91e63;
+    margin-bottom: 20px;
+    font-size: 4em;
+    font-weight: 400;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ Center buttons below the text */
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* ✅ Apply Modern Bubbly Font to Buttons */
+button {
+    font-family: 'Poppins', sans-serif;
+    padding: 15px 40px;
+    font-size: 22px;
+    font-weight: 700;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+.yes-btn {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* ✅ No Button with Shimmer Effect */
+.no-btn {
+    background-color: #f44336;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    animation: shimmerGlow 1.5s infinite alternate ease-in-out;
+}
+
+/* ✨ Shimmer & Glow Effect for Changing "No" Button Text ✨ */
+@keyframes shimmerGlow {
+    0% { 
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 
+                    0 0 10px rgba(255, 50, 50, 0.4),
+                    0 0 15px rgba(255, 50, 50, 0.5);
+    }
+    50% { 
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 
+                    0 0 20px rgba(255, 50, 50, 0.7),
+                    0 0 30px rgba(255, 50, 50, 0.9);
+    }
+    100% { 
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 
+                    0 0 10px rgba(255, 50, 50, 0.4),
+                    0 0 15px rgba(255, 50, 50, 0.5);
+    }
+}
+
+/* Floating Background */
+.floating-background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -100;
+    pointer-events: none;
+}
+
+/* Floating Images (Cartoon Black Border, Random Tilts & Floating Motion) */
+.floating-img {
+    position: absolute;
+    opacity: 0.9;
+
+    filter: drop-shadow(-4px -4px 0 black) 
+            drop-shadow(4px -4px 0 black) 
+            drop-shadow(-4px 4px 0 black) 
+            drop-shadow(4px 4px 0 black);
+
+    animation: floatAround 6s ease-in-out infinite alternate, tiltAnimation 8s ease-in-out infinite alternate;
+}
+
+/* Floating with Small Offset for Natural Movement */
+@keyframes floatAround {
+    0% { transform: translateY(0) translateX(0) rotate(var(--random-tilt)); }
+    25% { transform: translateY(-20px) translateX(15px) rotate(var(--random-tilt)); }
+    50% { transform: translateY(15px) translateX(-10px) rotate(var(--random-tilt)); }
+    75% { transform: translateY(-10px) translateX(20px) rotate(var(--random-tilt)); }
+    100% { transform: translateY(10px) translateX(-15px) rotate(var(--random-tilt)); }
+}
+
+/* Gentle Tilting Effect */
+@keyframes tiltAnimation {
+    0% { transform: rotate(var(--random-tilt)); }
+    50% { transform: rotate(calc(var(--random-tilt) + 5deg)); }
+    100% { transform: rotate(var(--random-tilt)); }
+}
+
+/* Special Animation for IMAGE 5 (Slow 360° Rotation + Floating) */
+.rotating-img {
+    animation: rotateFloat 20s linear infinite !important;
+    
+    /* Apply Cartoon Border Like Other Images */
+    filter: drop-shadow(-4px -4px 0 black) 
+            drop-shadow(4px -4px 0 black) 
+            drop-shadow(-4px 4px 0 black) 
+            drop-shadow(4px 4px 0 black);
+}
+
+/* Full 360° Slow Rotation While Floating for IMAGE 5 */
+@keyframes rotateFloat {
+    0% { transform: rotate(0deg) translateY(0) translateX(0); }
+    25% { transform: rotate(90deg) translateY(-15px) translateX(15px); }
+    50% { transform: rotate(180deg) translateY(10px) translateX(-10px); }
+    75% { transform: rotate(270deg) translateY(-10px) translateX(20px); }
+    100% { transform: rotate(360deg) translateY(0) translateX(0); }
+}
+
+/* Floating Text */
+@keyframes floatText {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
